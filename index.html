@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dessert Shop</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: beige;
+  padding: 40px;
+}
+
+.negiz {
+  display: flex;
+  gap: 40px;
+}
+
+.betat {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.tor {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+.zat {
+  position: relative;
+}
+
+.sureti {
+  width: 250px;
+  height: 250px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.sozi {
+  margin-top: 35px;
+}
+
+.sozi span {
+  font-size: 14px;
+  color: gray;
+}
+
+.sozi h3 {
+  margin: 5px 0;
+  color: brown;
+}
+
+.sozi h4 {
+  margin: 0;
+  color: brown;
+}
+
+.qosu,
+.sanau {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 80px;
+  width: 150px;
+  height: 40px;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.qosu {
+  background: white;
+  border: 1px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.qosu:hover {
+  background: rgb(255,118,68);
+  color: white;
+}
+
+.sanau {
+  display: none;
+  background: rgb(255,124,77);
+  border: none;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.sebep {
+  background: white;
+  width: 320px;
+  padding: 20px;
+  border-radius: 15px;
+  height: fit-content;
+}
+
+.sebep h1 {
+  color: brown;
+}
+
+.sebep img {
+  display: block;
+  margin: 30px auto 10px;
+}
+
+.sebep p {
+  text-align: center;
+  color: gray;
+}
+
+@media (max-width: 900px) {
+  .negiz {
+    flex-direction: column;
+  }
+  .tor {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="negiz">
+
+  <div>
+    <h1 class="betat">Desserts</h1>
+
+    <div class="tor">
+
+      <div class="zat">
+        <img src="assets/images/image-waffle-desktop.jpg" class="sureti">
+
+        <button class="qosu">
+          <img src="assets/images/icon-add-to-cart.svg">
+          Qosu
+        </button>
+
+        <button class="sanau">
+          <img src="assets/images/icon-decrement-quantity.svg" class="azai">
+          <span class="range">0</span>
+          <img src="assets/images/icon-increment-quantity.svg" class="kobei">
+        </button>
+
+        <div class="sozi">
+          <span>Waffle</span>
+          <h3>Waffle with Berries</h3>
+          <h4>$6.50</h4>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+  <div class="sebep">
+    <h1>Menin sebepim <span class="numberorder">(0)</span></h1>
+    <img src="assets/images/illustration-empty-cart.svg" class="empty">
+    <p class="orders">Your added items will appear here</p>
+  </div>
+
+</div>
+
+<script>
+const zattar = document.querySelectorAll(".zat");
+const sebep = document.querySelector(".sebep");
+const empty = document.querySelector(".empty");
+const orders = document.querySelector(".orders");
+const numberorder = document.querySelector(".numberorder");
+
+zattar.forEach((zat) => {
+  const qosu = zat.querySelector(".qosu");
+  const sanau = zat.querySelector(".sanau");
+  const kobei = zat.querySelector(".kobei");
+  const azai = zat.querySelector(".azai");
+  const range = zat.querySelector(".range");
+
+  const at = zat.querySelector(".sozi span").textContent;
+  const baga = zat.querySelector(".sozi h4").textContent;
+
+  let san = 0;
+  let algan = null;
+
+  qosu.addEventListener("click", () => {
+    qosu.style.display = "none";
+    sanau.style.display = "flex";
+  });
+
+  kobei.addEventListener("click", () => {
+    san++;
+    range.textContent = san;
+    numberorder.textContent = san;
+    empty.style.display = "none";
+    orders.style.display = "none";
+
+    if (!algan) {
+      algan = document.createElement("div");
+      algan.innerHTML = `<p>${at} — ${san}x ${baga}</p>`;
+      sebep.appendChild(algan);
+    } else {
+      algan.innerHTML = `<p>${at} — ${san}x ${baga}</p>`;
+    }
+  });
+
+  azai.addEventListener("click", () => {
+    if (san > 0) {
+      san--;
+      range.textContent = san;
+      numberorder.textContent = san;
+      if (san === 0 && algan) {
+        algan.remove();
+        algan = null;
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
